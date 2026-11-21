@@ -1,6 +1,6 @@
 schema: osera-patch-evidence/0.1.0
 producer: moderne
-release: 6.15.5-backpatch-00002
+release: 6.15.5-backpatch-00003
 baseline: v6.15.4+backpatch.baseline
 fixes:
   - cve: CVE-2026-82417
@@ -18,12 +18,20 @@ fixes:
     basis: backport
     artifacts:
       - qs
-    note: "New in this release; upstream's fix in 6.16.0 (8859c37, 8079adc). It closes the advisory: qs array-limit bypass via bracket-key comma parsing."
+    note: "Carried from 6.15.5-backpatch-00002; upstream's fix in 6.16.0 (8859c37, 8079adc). It closes the advisory: qs array-limit bypass via bracket-key comma parsing."
+  - cve: CVE-2026-110816
+    upstream_fix_url: https://github.com/ljharb/qs/commit/a952e7519338ef0cfb25694a2988848f93333727
+    advisory_url: https://nvd.nist.gov/vuln/detail/CVE-2026-110816
+    patch_commit_url: https://github.com/moderne-backpatch-alliance/backpatch-qs/commit/0a491d8
+    basis: backport
+    artifacts:
+      - qs
+    note: "New in this release; upstream's fix in 6.16.1. It closes the advisory: qs : qs.stringify with arrayFormat 'comma' throws an uncaught TypeError on array elements carrying a non-callable own toString (DoS)."
 tests:
-  commit: dc0650969bcb21caf934c899b470a9a0d0f2b8f2
+  commit: 0a491d8e9741b9c9594d74a851feab88d59c28d7
   command: npm run dist, npm pack --ignore-scripts, then tape 'test/**/*.js' in the tested tree, each TAP assertion recorded into the JUnit report
   runtime: Node.js v22.16.0, macOS 27.2 arm64
-  report: qs-6.15.5-backpatch-00002-tests.zip
-  report_sha256: 4f590bcbfbc0a2108400cdca540ebd94677bc3f46381a2107fb2f0e43728ccad
+  report: qs-6.15.5-backpatch-00003-tests.zip
+  report_sha256: fe3f95f7383e2ba1e9e35098fbb28c699854d2c95db88843860abbfedaf327f1
   result: pass
-  note: "upstream's tape suite upstream's tests on the tested tree with the packed files laid over at the tested commit: 1069 tests, 1069 passed, 0 failed, 0 skipped. The CVE tests (test), with this release's production lines reverted at the tested commit: 1069 tests, 1058 passed, 11 failed, 0 skipped; with them: 1069 tests, 1069 passed, 0 failed, 0 skipped. Built with npm run dist (browserify, dist/qs.js rebuilt from lib/), npm pack --ignore-scripts in a directory named qs, 13 of npmjs's 20 files for 6.15.4 are identical; the rest are dist/qs.js, lib/parse.js, lib/utils.js, package.json, test/parse.js, test/stringify.js, test/utils.js. The archive's file-origins.yaml maps each packaged file to the commit, or names its inputs and build."
+  note: "upstream's tape suite upstream's tests on the tested tree with the packed files laid over at the tested commit: 1090 tests, 1090 passed, 0 failed, 0 skipped. The CVE tests (test), with this release's production lines reverted at the tested commit: 663 tests, 662 passed, 1 failed, 0 skipped; with them: 1090 tests, 1090 passed, 0 failed, 0 skipped. Built with npm run dist (browserify, dist/qs.js rebuilt from lib/), npm pack --ignore-scripts in a directory named qs, 12 of npmjs's 20 files for 6.15.4 are identical; the rest are dist/qs.js, lib/parse.js, lib/stringify.js, lib/utils.js, package.json, test/parse.js, test/stringify.js, test/utils.js. The archive's file-origins.yaml maps each packaged file to the commit, or names its inputs and build."
