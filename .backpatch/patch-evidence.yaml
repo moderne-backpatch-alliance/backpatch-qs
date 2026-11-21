@@ -1,0 +1,21 @@
+schema: osera-patch-evidence/0.1.0
+producer: moderne
+release: 6.15.5-backpatch-00001
+baseline: v6.15.4+backpatch.baseline
+fixes:
+  - cve: CVE-2026-82417
+    upstream_fix_url: https://github.com/ljharb/qs/commit/e83d321ffafb38cf210683ac31714fce6ce1c6c6
+    advisory_url: https://nvd.nist.gov/vuln/detail/CVE-2026-82417
+    patch_commit_url: https://github.com/moderne-backpatch-alliance/backpatch-qs/commit/8f294eb
+    basis: backport
+    artifacts:
+      - qs
+    note: "New in this release; upstream's fix in 6.16.0. It closes the advisory: qs: Denial of Service via Attacker Controlled isBuffer."
+tests:
+  commit: 8f294eb589d5cbb0199954cb4e8aecd2ee2b8248
+  command: npm run dist, npm pack --ignore-scripts, then tape 'test/**/*.js' in the tested tree, each TAP assertion recorded into the JUnit report
+  runtime: Node.js v22.16.0, macOS 27.2 arm64
+  report: qs-6.15.5-backpatch-00001-tests.zip
+  report_sha256: 84f2a0319b4bab433718f5b71a43150959e73234001f5058df0342aa3924cf72
+  result: pass
+  note: "upstream's tape suite upstream's tests on the tested tree with the packed files laid over at the tested commit: 1054 tests, 1054 passed, 0 failed, 0 skipped. The CVE tests (test), with this release's production lines reverted at the tested commit: 669 tests, 668 passed, 1 failed, 0 skipped; with them: 1054 tests, 1054 passed, 0 failed, 0 skipped. Built with npm run dist (browserify, dist/qs.js rebuilt from lib/), npm pack --ignore-scripts in a directory named qs, 15 of npmjs's 20 files for 6.15.4 are identical; the rest are dist/qs.js, lib/utils.js, package.json, test/stringify.js, test/utils.js. The archive's file-origins.yaml maps each packaged file to the commit, or names its inputs and build."
