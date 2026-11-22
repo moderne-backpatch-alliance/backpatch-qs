@@ -12,6 +12,7 @@ export default [
         rules: {
             complexity: 'off',
             'consistent-return': 'warn',
+            eqeqeq: ['error', 'allow-null'],
             'func-name-matching': 'off',
             'id-length': [
                 'error',
