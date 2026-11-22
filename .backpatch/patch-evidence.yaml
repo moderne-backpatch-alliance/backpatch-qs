@@ -1,6 +1,6 @@
 schema: osera-patch-evidence/0.1.0
 producer: moderne
-release: 6.14.4-backpatch-00002
+release: 6.14.4-backpatch-00003
 baseline: v6.14.3+backpatch.baseline
 fixes:
   - cve: CVE-2026-8723
@@ -18,12 +18,20 @@ fixes:
     basis: backport
     artifacts:
       - qs
-    note: "New in this release; upstream's fix in 6.16.0. It closes the advisory: qs: Denial of Service via Attacker Controlled isBuffer."
+    note: "Carried from 6.14.4-backpatch-00002; upstream's fix in 6.16.0. It closes the advisory: qs: Denial of Service via Attacker Controlled isBuffer."
+  - cve: CVE-2026-110816
+    upstream_fix_url: https://github.com/ljharb/qs/commit/a952e7519338ef0cfb25694a2988848f93333727
+    advisory_url: https://nvd.nist.gov/vuln/detail/CVE-2026-110816
+    patch_commit_url: https://github.com/moderne-backpatch-alliance/backpatch-qs/commit/ead0edf
+    basis: adapted
+    artifacts:
+      - qs
+    note: "New in this release; upstream's fix in 6.16.1, adapted to 6.14.3. It closes the advisory: qs : qs.stringify with arrayFormat 'comma' throws an uncaught TypeError on array elements carrying a non-callable own toString (DoS)."
 tests:
-  commit: 6e65ba4e0d9706e30febad23afbbb858098a14e6
+  commit: ead0edf347b3060b89e89dcf8bb0dcbb6c66ad17
   command: npm run dist, npm pack --ignore-scripts, then tape 'test/**/*.js' in the tested tree, each TAP assertion recorded into the JUnit report
   runtime: Node.js v22.16.0, macOS 27.2 arm64
-  report: qs-6.14.4-backpatch-00002-tests.zip
-  report_sha256: 9490be46b0c6fea21d46585e496144ebf7313a7ff1c5f789c4b51ea262cee279
+  report: qs-6.14.4-backpatch-00003-tests.zip
+  report_sha256: 32433a69bbcffb2fac3d99dfce42efd951496e8489f71cbea44d79c87406c1ab
   result: pass
-  note: "upstream's tape suite (test/**/*.js) on the tested tree with the packed files laid over at the tested commit: 912 tests, 912 passed, 0 failed, 0 skipped. The CVE tests (test), with this release's production lines reverted at the tested commit: 577 tests, 576 passed, 1 failed, 0 skipped; with them: 912 tests, 912 passed, 0 failed, 0 skipped. Built with npm run dist (browserify, dist/qs.js rebuilt from lib/), npm pack --ignore-scripts in a directory named qs, 13 of npmjs's 20 files for 6.14.3 are identical; the rest are dist/qs.js, eslint.config.mjs, lib/stringify.js, lib/utils.js, package.json, test/stringify.js, test/utils.js. The archive's file-origins.yaml maps each packaged file to the commit, or names its inputs and build."
+  note: "upstream's tape suite (test/**/*.js) on the tested tree with the packed files laid over at the tested commit: 933 tests, 933 passed, 0 failed, 0 skipped. The CVE tests (test), with this release's production lines reverted at the tested commit: 556 tests, 555 passed, 1 failed, 0 skipped; with them: 933 tests, 933 passed, 0 failed, 0 skipped. Built with npm run dist (browserify, dist/qs.js rebuilt from lib/), npm pack --ignore-scripts in a directory named qs, 13 of npmjs's 20 files for 6.14.3 are identical; the rest are dist/qs.js, eslint.config.mjs, lib/stringify.js, lib/utils.js, package.json, test/stringify.js, test/utils.js. The archive's file-origins.yaml maps each packaged file to the commit, or names its inputs and build."
